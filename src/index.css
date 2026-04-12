@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-base: #0d0d14;
+  --color-surface: #14141f;
+  --color-border: #2a2a3d;
+  --color-text: #e2e2f0;
+  --color-muted: #6b6b8a;
+  --color-accent: #a78bfa;
+}
+
+.light {
+  --color-base: #ffffff;
+  --color-surface: #f4f4f8;
+  --color-border: #dddde8;
+  --color-text: #1a1a2e;
+  --color-muted: #7070a0;
+  --color-accent: #6d28d9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--color-base);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: var(--font-size, 16px);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+/* Input / textarea text color */
+input,
+textarea {
+  color: var(--color-text);
+}
+
+/* CodeMirror override */
+.cm-editor {
+  height: 100%;
+  font-size: var(--font-size, 16px);
+}
+.cm-scroller {
+  overflow: auto;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* Markdown preview */
+.markdown-preview {
+  padding: 1.5rem;
+  max-width: 720px;
+  line-height: 1.7;
+  overflow-y: auto;
+}
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3 {
+  color: var(--color-accent);
+  margin-top: 1.5em;
+}
+.markdown-preview code {
+  background: var(--color-surface);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.markdown-preview pre {
+  background: var(--color-surface);
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+.markdown-preview a {
+  color: var(--color-accent);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.markdown-preview blockquote {
+  border-left: 3px solid var(--color-accent);
+  margin-left: 0;
+  padding-left: 1em;
+  color: var(--color-muted);
+}
