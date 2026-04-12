@@ -9,7 +9,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-GPL--3.0-blue?style=for-the-badge)
 
-<img alt="opensidian" src="https://github.com/user-attachments/assets/e5a94f5a-8e4e-4257-918c-78e07d30d21c" />
+<img alt="opensidian" src="https://github.com/user-attachments/assets/a08e3c9c-39d0-408b-93e3-a6caa95b57fe" />
 
 **A lightweight, open-source desktop note-taking app for power users who think in linked ideas**
 
