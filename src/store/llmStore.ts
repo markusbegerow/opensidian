@@ -14,16 +14,6 @@ export interface LLMSettings {
   token: string;
 }
 
-const SETTINGS_KEY = "llm-settings";
-
-function loadSettings(): LLMSettings {
-  try {
-    const raw = localStorage.getItem(SETTINGS_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch {}
-  return { url: "", model: "", token: "" };
-}
-
 interface LLMState {
   messages: ChatMessage[];
   settings: LLMSettings;
@@ -37,7 +27,7 @@ interface LLMState {
 
 export const useLLMStore = create<LLMState>()((set) => ({
   messages: [],
-  settings: loadSettings(),
+  settings: { url: "", model: "", token: "" },
   isLoading: false,
 
   addMessage: (msg) =>
@@ -53,7 +43,6 @@ export const useLLMStore = create<LLMState>()((set) => ({
   setLoading: (v) => set({ isLoading: v }),
 
   updateSettings: (s) => {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
     set({ settings: s });
     if (vaultRef.path) {
       updateConfigKeys(vaultRef.path, {

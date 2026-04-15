@@ -8,6 +8,7 @@ import { vaultRef } from "../lib/vaultRef";
 import { readConfigFile } from "../lib/configFile";
 import { useThemeStore } from "./themeStore";
 import { useLLMStore } from "./llmStore";
+import { useOnboardingStore } from "./onboardingStore";
 
 interface VaultState {
   vaultPath: string | null;
@@ -51,6 +52,11 @@ export const useVaultStore = create<VaultState>()((set, get) => ({
         model: config["llm.model"] ?? "",
         token: config["llm.token"] ?? "",
       });
+    }
+    if (config.hasSeenOnboarding !== "true") {
+      useOnboardingStore.getState().open();
+    } else {
+      useOnboardingStore.setState({ hasSeenOnboarding: true });
     }
   },
 

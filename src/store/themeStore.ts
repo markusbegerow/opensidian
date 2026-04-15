@@ -24,17 +24,14 @@ function applyFontSize(size: number) {
   document.documentElement.style.setProperty("--font-size", `${size}px`);
 }
 
-const storedTheme = (localStorage.getItem("theme") as Theme) ?? "dark";
-const storedFontSize = Number(localStorage.getItem("fontSize") ?? 16);
-applyTheme(storedTheme);
-applyFontSize(storedFontSize);
+applyTheme("light");
+applyFontSize(16);
 
 export const useThemeStore = create<ThemeStore>((set) => ({
-  theme: storedTheme,
-  fontSize: storedFontSize,
+  theme: "light",
+  fontSize: 16,
 
   setTheme: (theme) => {
-    localStorage.setItem("theme", theme);
     applyTheme(theme);
     set({ theme });
     if (vaultRef.path) updateConfigKeys(vaultRef.path, { theme });
@@ -43,14 +40,12 @@ export const useThemeStore = create<ThemeStore>((set) => ({
   toggleTheme: () =>
     set((state) => {
       const next: Theme = state.theme === "dark" ? "light" : "dark";
-      localStorage.setItem("theme", next);
       applyTheme(next);
       if (vaultRef.path) updateConfigKeys(vaultRef.path, { theme: next });
       return { theme: next };
     }),
 
   setFontSize: (size) => {
-    localStorage.setItem("fontSize", String(size));
     applyFontSize(size);
     set({ fontSize: size });
     if (vaultRef.path) updateConfigKeys(vaultRef.path, { fontSize: String(size) });

@@ -15,6 +15,8 @@ export function parseConfig(content: string): Record<string, string> {
 }
 
 const KEY_ORDER = [
+  "getStarted",
+  "hasSeenOnboarding",
   "theme",
   "fontSize",
   "llm.url",

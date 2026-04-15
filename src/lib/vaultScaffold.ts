@@ -1,14 +1,16 @@
-import { createDirectory, writeFile } from "./tauriFs";
+import { createDirectory, readFile, writeFile } from "./tauriFs";
+import { parseConfig } from "./configFile";
 
 const CONFIG_MD = `# Opensidian Config
 
-| Setting   | Value                                          |
-|-----------|------------------------------------------------|
-| theme     | light                                           |
-| fontSize  | 16                                             |
-| llm.url   | https://api.openai.com/v1/chat/completions     |
-| llm.model | gpt-4o                                         |
-| llm.token |                                                |
+| Setting    | Value                                          |
+|------------|------------------------------------------------|
+| getStarted | true                                           |
+| theme      | light                                          |
+| fontSize   | 16                                             |
+| llm.url    | https://api.openai.com/v1/chat/completions     |
+| llm.model  | gpt-4o                                         |
+| llm.token  |                                                |
 `;
 
 const COLORS_MD = `# Color System
@@ -77,8 +79,20 @@ export async function scaffoldVault(vaultPath: string): Promise<void> {
   await createDirectory(`${p}/.configs`);
   await createDirectory(`${p}/.templates`);
 
-  // Write config files
-  await writeFile(`${p}/.configs/config.md`, CONFIG_MD);
+  // Only write default config if this vault hasn't been set up before
+  const configPath = `${p}/.configs/config.md`;
+  let alreadySetup = false;
+  try {
+    const existing = await readFile(configPath);
+    alreadySetup = parseConfig(existing)["getStarted"] === "true";
+  } catch {
+    // File doesn't exist yet — proceed with defaults
+  }
+
+  if (!alreadySetup) {
+    await writeFile(configPath, CONFIG_MD);
+  }
+
   await writeFile(`${p}/.configs/colors.md`, COLORS_MD);
 
   // Write templates

@@ -271,6 +271,27 @@ opensidian/
 
 ## Troubleshooting
 
+### Windows — SmartScreen warning ("Windows protected your PC")
+
+The installer is not yet code-signed. To proceed: click **More info** → **Run anyway**.
+
+### macOS — "Opensidian cannot be opened" (Gatekeeper warning)
+
+The app is not yet notarized with Apple. To open it anyway:
+
+**Option A — right-click method:** Right-click `Opensidian.app` → **Open** → **Open** in the dialog.
+
+**Option B — terminal:**
+```bash
+xattr -dr com.apple.quarantine /Applications/Opensidian.app
+```
+
+Full notarization (no warning at all) requires an Apple Developer account ($99/year). See the release workflow for how to wire it up once ready.
+
+### Linux
+
+No signing or permission warnings — packages install directly. If the AppImage doesn't launch, mark it executable first: `chmod +x Opensidian_*.AppImage`.
+
 ### Vault Not Loading
 - Ensure the selected folder contains `.md` files
 - Check that Rust permissions allow reading that directory path

@@ -3,7 +3,6 @@ import { FolderOpen, FolderPlus, Loader2, CheckCircle2, ChevronRight } from "luc
 import { pickVaultFolder } from "../../lib/tauriFs";
 import { scaffoldVault } from "../../lib/vaultScaffold";
 import { useVaultStore } from "../../store/vaultStore";
-import { useOnboardingStore } from "../../store/onboardingStore";
 
 const SCAFFOLD_PREVIEW = [
   { path: ".configs/config.md", desc: "Theme, font size and app settings" },
@@ -17,7 +16,6 @@ type Status = "idle" | "loading" | "done" | "error";
 
 export function VaultSetupModal() {
   const openVault = useVaultStore((s) => s.openVault);
-  const { completeSetup, open: openWizard } = useOnboardingStore();
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -33,10 +31,7 @@ export function VaultSetupModal() {
     try {
       await scaffoldVault(folder);
       await openVault(folder);
-      completeSetup();
       setStatus("done");
-      // Show the concept wizard after a brief moment
-      setTimeout(() => openWizard(), 400);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e));
       setStatus("error");
