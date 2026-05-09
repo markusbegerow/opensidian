@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { VaultFile, FsEvent } from "../types/vault";
-import { openVault as tauriOpenVault, pickVaultFolder, readFile } from "../lib/tauriFs";
+import { openVault as tauriOpenVault, pickVaultFolder } from "../lib/tauriFs";
 import { indexAll, indexFile } from "../lib/vaultIndexer";
 import { useWikilinkStore } from "./wikilinkStore";
 import { useColorStore } from "./colorStore";
@@ -45,24 +45,17 @@ export const useVaultStore = create<VaultState>()((set, get) => ({
     if (config.fontSize) {
       useThemeStore.getState().setFontSize(Number(config.fontSize));
     }
-    const hasLlm = config["llm.url"] || config["llm.model"] || config["llm.token"];
+    const hasLlm = config["llm.url"] || config["llm.model"] || config["llm.token"]
+      || config["llm.systemPrompt"] || config["llm.userPrompt"];
     if (hasLlm) {
       useLLMStore.getState().updateSettings({
         url: config["llm.url"] ?? "",
         model: config["llm.model"] ?? "",
         token: config["llm.token"] ?? "",
-        systemPrompt: "",
-        userPrompt: "",
+        systemPrompt: (config["llm.systemPrompt"] ?? "").replace(/\\n/g, "\n"),
+        userPrompt: (config["llm.userPrompt"] ?? "").replace(/\\n/g, "\n"),
       });
     }
-    try {
-      const sp = await readFile(`${path}/.configs/llm-system-prompt.md`);
-      useLLMStore.getState().updateSettings({ ...useLLMStore.getState().settings, systemPrompt: sp });
-    } catch { /* not configured yet */ }
-    try {
-      const up = await readFile(`${path}/.configs/llm-user-prompt.md`);
-      useLLMStore.getState().updateSettings({ ...useLLMStore.getState().settings, userPrompt: up });
-    } catch { /* not configured yet */ }
     if (config.hasSeenOnboarding !== "true") {
       useOnboardingStore.getState().open();
     } else {

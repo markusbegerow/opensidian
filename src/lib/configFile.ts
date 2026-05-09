@@ -22,6 +22,8 @@ const KEY_ORDER = [
   "llm.url",
   "llm.model",
   "llm.token",
+  "llm.systemPrompt",
+  "llm.userPrompt",
 ];
 
 /** Serialise a settings map back to the config.md table format. */
