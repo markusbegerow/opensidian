@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { VaultFile, FsEvent } from "../types/vault";
-import { openVault as tauriOpenVault, pickVaultFolder } from "../lib/tauriFs";
+import { openVault as tauriOpenVault, pickVaultFolder, readFile } from "../lib/tauriFs";
 import { indexAll, indexFile } from "../lib/vaultIndexer";
 import { useWikilinkStore } from "./wikilinkStore";
 import { useColorStore } from "./colorStore";
