@@ -151,11 +151,7 @@ function AppearanceSection() {
 
 function LLMSection() {
   const { settings, updateSettings } = useLLMStore();
-  const [form, setForm] = useState<LLMSettings>({
-    systemPrompt: "",
-    userPrompt: "",
-    ...settings,
-  });
+  const [form, setForm] = useState<LLMSettings>({ ...settings });
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);

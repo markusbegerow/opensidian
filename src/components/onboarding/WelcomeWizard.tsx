@@ -342,6 +342,8 @@ function StepLLM() {
     url: settings.url || "https://api.openai.com/v1/chat/completions",
     model: settings.model || "gpt-4o",
     token: settings.token || "",
+    systemPrompt: settings.systemPrompt || "",
+    userPrompt: settings.userPrompt || "",
   });
 
   function handleChange(field: keyof typeof form, value: string) {
