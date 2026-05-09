@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { vaultRef } from "../lib/vaultRef";
 import { updateConfigKeys } from "../lib/configFile";
+import { writeFile } from "../lib/tauriFs";
 
 export interface ChatMessage {
   id: string;
@@ -12,6 +13,8 @@ export interface LLMSettings {
   url: string;
   model: string;
   token: string;
+  systemPrompt: string;
+  userPrompt: string;
 }
 
 interface LLMState {
@@ -27,7 +30,7 @@ interface LLMState {
 
 export const useLLMStore = create<LLMState>()((set) => ({
   messages: [],
-  settings: { url: "", model: "", token: "" },
+  settings: { url: "", model: "", token: "", systemPrompt: "", userPrompt: "" },
   isLoading: false,
 
   addMessage: (msg) =>
@@ -50,6 +53,8 @@ export const useLLMStore = create<LLMState>()((set) => ({
         "llm.model": s.model,
         "llm.token": s.token,
       });
+      writeFile(`${vaultRef.path}/.configs/llm-system-prompt.md`, s.systemPrompt ?? "");
+      writeFile(`${vaultRef.path}/.configs/llm-user-prompt.md`, s.userPrompt ?? "");
     }
   },
 }));

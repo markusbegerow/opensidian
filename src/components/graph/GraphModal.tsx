@@ -1,7 +1,10 @@
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { GraphCanvas } from "./GraphCanvas";
 import { useGraph } from "../../hooks/useGraph";
+import { ChatPanel } from "../chat/ChatPanel";
+import { StatusBar } from "../layout/StatusBar";
 
 interface Props {
   onClose: () => void;
@@ -29,16 +32,23 @@ export function GraphModal({ onClose }: Props) {
         </div>
       </div>
 
-      {/* Canvas */}
-      <div className="flex-1 min-h-0">
-        {nodes.length === 0 ? (
-          <div className="flex h-full items-center justify-center text-muted text-sm text-center px-8">
-            No notes found. Open a vault, or check that your notes are not inside hidden folders (names starting with&nbsp;.).
-          </div>
-        ) : (
-          <GraphCanvas nodes={nodes} edges={edges} onClose={onClose} />
-        )}
-      </div>
+      {/* Canvas + Chat (resizable) */}
+      <PanelGroup direction="horizontal" className="flex-1 min-h-0">
+        <Panel defaultSize={72} minSize={40}>
+          {nodes.length === 0 ? (
+            <div className="flex h-full items-center justify-center text-muted text-sm text-center px-8">
+              No notes found. Open a vault, or check that your notes are not inside hidden folders (names starting with&nbsp;.).
+            </div>
+          ) : (
+            <GraphCanvas nodes={nodes} edges={edges} onClose={onClose} />
+          )}
+        </Panel>
+        <PanelResizeHandle className="w-px bg-border hover:bg-accent transition-colors cursor-col-resize" />
+        <Panel defaultSize={28} minSize={20} maxSize={50}>
+          <ChatPanel vaultMode onNavigate={onClose} />
+        </Panel>
+      </PanelGroup>
+      <StatusBar />
     </div>,
     document.body
   );

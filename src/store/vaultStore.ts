@@ -51,8 +51,18 @@ export const useVaultStore = create<VaultState>()((set, get) => ({
         url: config["llm.url"] ?? "",
         model: config["llm.model"] ?? "",
         token: config["llm.token"] ?? "",
+        systemPrompt: "",
+        userPrompt: "",
       });
     }
+    try {
+      const sp = await readFile(`${path}/.configs/llm-system-prompt.md`);
+      useLLMStore.getState().updateSettings({ ...useLLMStore.getState().settings, systemPrompt: sp });
+    } catch { /* not configured yet */ }
+    try {
+      const up = await readFile(`${path}/.configs/llm-user-prompt.md`);
+      useLLMStore.getState().updateSettings({ ...useLLMStore.getState().settings, userPrompt: up });
+    } catch { /* not configured yet */ }
     if (config.hasSeenOnboarding !== "true") {
       useOnboardingStore.getState().open();
     } else {

@@ -64,10 +64,10 @@ export function GraphCanvas({ nodes, edges, onClose }: Props) {
 
       simulation = d3
         .forceSimulation<GraphNode>(simNodes)
-        .force("link", d3.forceLink<GraphNode, GraphEdge>(simEdges).id((d) => d.id).distance(80))
-        .force("charge", d3.forceManyBody().strength(-120))
+        .force("link", d3.forceLink<GraphNode, GraphEdge>(simEdges).id((d) => d.id).distance(160))
+        .force("charge", d3.forceManyBody().strength(-350))
         .force("center", d3.forceCenter(width / 2, height / 2))
-        .force("collision", d3.forceCollide(20));
+        .force("collision", d3.forceCollide(35));
 
       // Edges
       const link = g
